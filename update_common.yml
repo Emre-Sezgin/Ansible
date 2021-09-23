@@ -1,0 +1,19 @@
+---
+- hosts: webservers
+  become: yes
+  become_user: root
+  become_method: sudo
+  
+  tasks:
+  - name: installation des paquets communs à tous les serveurs
+    apt:
+      update_cache: yes
+      state: latest
+      name: ['glances','pwgen','sudo','tar','unzip','vim','whois','apache2','php']
+
+  - name: installation de la mise à jour du systeme d'exploitation
+    become: true  
+    apt:
+      upgrade: yes
+      update_cache: yes
+      cache_valid_time: 86400 # 1 jour    
